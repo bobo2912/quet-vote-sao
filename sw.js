@@ -1,5 +1,5 @@
 // Cache app shell để mở được khi offline. Đổi VERSION mỗi lần cập nhật để máy khách lấy bản mới.
-const VERSION = 'qvs-v2';
+const VERSION = 'qvs-v3';
 const SHELL = ['./', './index.html', './challenges.js', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
