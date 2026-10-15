@@ -1,33 +1,48 @@
 # Quẹt Vote Sao
 
-Mini app: khách quẹt thẻ (kiểu Tinder) chọn thử thách mỗi ngày, hoàn thành giao dịch để nhận lượt vote cho nghệ sĩ.
+Mini app: khách quẹt thẻ (kiểu Tinder) chọn thử thách mỗi ngày, hoàn thành để nhận lượt vote cho nghệ sĩ.
 
-Chạy: mở `index.html` trong trình duyệt (một file, không cần build). Bật GitHub Pages để có link.
+Chạy: mở `index.html` (không cần build). Link GitHub Pages: https://bobo2912.github.io/quet-vote-sao/
 
-## Thử thách
-| Loại | Ví dụ | Vote gốc |
+## Hai nhóm khách hàng
+| | All user | Upgrade |
 |---|---|---|
-| Phi tài chính | Xem menu, xem video, đăng nhập, chia sẻ, mời bạn | 1 (tối đa 2/ngày) |
-| Tài chính hằng ngày | Chuyển tiền từ 50k, nạp ĐT 100k, hóa đơn, tiết kiệm từ 6 tháng | 2–3 |
-| Tài chính theo phân khúc | Vé phim, data, vé concert, QR… | 3 |
+| Điều kiện | Mọi khách | Gửi tiết kiệm từ 1.000.000đ, kỳ hạn từ 6 tháng |
+| Lượt nhận thử thách | 5/ngày (cuối tuần +2), reset 00:00 | Không giới hạn |
+| Vote mỗi thử thách | 1 | 2–5 |
+| Giờ vàng / ngày vàng / thẻ vàng | Không | Có, cộng dồn tối đa ×3 |
+| Combo đủ 3 nhóm | Không | +3 |
 
-## Giới hạn
-- Nhận tối đa 3 thử thách/ngày (cuối tuần 5), trần 30 vote/ngày, 20 vote/nghệ sĩ/ngày.
+- **Trần chung: 50 vote/ngày** cho mọi khách, kể cả khi có hệ số.
+- Tối đa 3 thử thách làm dở cùng lúc (chống ôm thẻ chờ giờ vàng).
+- Upgrade: phi tài chính tối đa 10 vote/ngày.
+- All user thấy xen 3 thẻ Upgrade bị khóa trong bộ bài; quẹt phải để mở màn hình mở khóa, quẹt trái không mất lượt.
+- Tất toán sổ mở khóa trước hạn → mất quyền Upgrade ngay.
 
-## Thưởng
-- Giờ vàng 12–13h, 20–21h: tài chính ×2 · Ngày vàng (15 hằng tháng, 10/10, 11/11): ×2 · Thẻ vàng ×2 · Combo đủ 3 loại +2 · Hệ số tối đa ×3.
+## Kho 100 thử thách
+Sửa trong `challenges.js` (app đọc trực tiếp). `challenges.csv` là bản để mở bằng Excel/Google Sheets.
+
+| | Phi tài chính | Tài chính hằng ngày | Tài chính theo phân khúc | Tổng |
+|---|---|---|---|---|
+| All user (1 vote) | 25 | 12 | 8 | 45 |
+| Upgrade (2–5 vote) | 10 | 25 | 20 | 55 |
+
+Phân khúc: Gen Z, Gia đình, Dân văn phòng, Hộ kinh doanh, Mê du lịch.
+
+Bộ thẻ mỗi ngày: All user 12 thẻ (6 phi tài chính, 4 hằng ngày, 2 phân khúc) + 3 thẻ Upgrade bị khóa. Upgrade: toàn bộ thẻ hợp phân khúc, xếp 2 thẻ Upgrade xen 1 thẻ All user.
+
+Các con số chỉnh tại khối `CFG` đầu script trong `index.html`.
 
 ## Chống gian lận
-- Bộ thẻ sinh từ mã KH + ngày trên máy chủ (không reroll được); giờ theo máy chủ.
-- Chỉ tính giao dịch core xác nhận thành công, sau lúc nhận thử thách, đủ giá trị tối thiểu.
-- Mỗi mã giao dịch nhận thưởng 1 lần (idempotency); loại chuyển cho chính mình, chuyển vòng.
-- Hoàn/hủy giao dịch, tất toán tiết kiệm sớm → thu hồi vote; mời bạn chỉ tính khi bạn eKYC + giao dịch đầu.
-
-> Bản prototype: giao dịch, kiểm tra phía máy chủ và tên nghệ sĩ là giả lập; dữ liệu demo lưu localStorage.
+- Bộ thẻ sinh từ mã KH + ngày + hạng trên máy chủ (không reroll được); giờ theo máy chủ.
+- Chỉ tính giao dịch core xác nhận thành công, sau lúc nhận thẻ, đủ giá trị và số lượng.
+- Mỗi mã giao dịch dùng 1 lần, kể cả sổ mở khóa (idempotency); loại chuyển cho chính mình, chuyển vòng.
+- Hoàn/hủy giao dịch → thu hồi vote; mời bạn chỉ tính khi bạn eKYC + đạt điều kiện.
 
 ## Cài như app (PWA)
-Mở link GitHub Pages trên điện thoại:
-- **iPhone (Safari):** nút Chia sẻ → *Thêm vào MH chính*.
-- **Android (Chrome):** menu ⋮ → *Cài đặt ứng dụng* / *Thêm vào màn hình chính*.
+- **iPhone (Safari):** Chia sẻ → *Thêm vào MH chính*.
+- **Android (Chrome):** menu ⋮ → *Cài đặt ứng dụng*.
 
-Khi mở từ màn hình chính, app chạy toàn màn hình (bảng demo nằm cuối trang) và vẫn mở được khi mất mạng. Cập nhật code thì đổi `VERSION` trong `sw.js`.
+Mỗi lần cập nhật code, đổi `VERSION` trong `sw.js`.
+
+> Bản prototype: giao dịch, kiểm tra phía máy chủ và tên nghệ sĩ là giả lập; dữ liệu demo lưu localStorage.

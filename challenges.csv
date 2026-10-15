@@ -1,0 +1,101 @@
+﻿Mã,Nhóm khách,Nhóm thử thách,Thử thách,Điều kiện,Giá trị tối thiểu (đ),Số giao dịch,Vote gốc,Phân khúc
+A-NF-01,All user,Phi tài chính,Đăng nhập app hôm nay,Đăng nhập bằng sinh trắc học hoặc mật khẩu trên thiết bị đã đăng ký,,1,1,Tất cả
+A-NF-02,All user,Phi tài chính,Xem menu ưu đãi tháng này,"Lướt đủ 3 trang, mỗi trang tối thiểu 5 giây",,1,1,Tất cả
+A-NF-03,All user,Phi tài chính,Xem video hậu trường 30 giây,"Xem hết video, app mở ở tiền cảnh",,1,1,Tất cả
+A-NF-04,All user,Phi tài chính,Bật thông báo giờ vàng,Bật thông báo đẩy cho chương trình,,1,1,Tất cả
+A-NF-05,All user,Phi tài chính,Chia sẻ bảng xếp hạng,Link chia sẻ có ít nhất 1 lượt mở,,1,1,Tất cả
+A-NF-06,All user,Phi tài chính,Mời 1 bạn mở tài khoản,Bạn được mời hoàn tất eKYC và có giao dịch đầu tiên,,1,1,Tất cả
+A-NF-07,All user,Phi tài chính,Cập nhật ảnh đại diện,Đổi ảnh đại diện trong mục Cá nhân,,1,1,Tất cả
+A-NF-08,All user,Phi tài chính,Đọc tin tài chính hôm nay,"Đọc 1 bài trong mục Tin tức, tối thiểu 20 giây",,1,1,Tất cả
+A-NF-09,All user,Phi tài chính,Đố vui âm nhạc 3 câu,"Trả lời đủ 3 câu, đúng hay sai đều được",,1,1,Tất cả
+A-NF-10,All user,Phi tài chính,Xem hồ sơ 3 nghệ sĩ đề cử,Mở trang của 3 nghệ sĩ khác nhau,,1,1,Tất cả
+A-NF-11,All user,Phi tài chính,Đặt tên gợi nhớ người nhận,Đặt tên gợi nhớ cho 1 người thụ hưởng đã lưu,,1,1,Tất cả
+A-NF-12,All user,Phi tài chính,Bật đăng nhập sinh trắc học,Bật Face ID / vân tay trong Cài đặt bảo mật,,1,1,Tất cả
+A-NF-13,All user,Phi tài chính,Xem lịch đêm chung kết,Mở trang lịch biểu diễn,,1,1,Tất cả
+A-NF-14,All user,Phi tài chính,Lưu 1 mẫu chuyển tiền,Tạo mẫu chuyển tiền mới,,1,1,Tất cả
+A-NF-15,All user,Phi tài chính,Thả tim bài đăng chương trình,Thả tim 1 bài trong mục Tin chương trình,,1,1,Tất cả
+A-NF-16,All user,Phi tài chính,Xem lịch sử giao dịch,Mở lịch sử giao dịch 30 ngày gần nhất,,1,1,Tất cả
+A-NF-17,All user,Phi tài chính,Kiểm tra hạn mức thẻ,Mở trang quản lý thẻ,,1,1,Tất cả
+A-NF-18,All user,Phi tài chính,Xem bảng lãi suất tiết kiệm,"Mở bảng lãi suất, tối thiểu 10 giây",,1,1,Tất cả
+A-NF-19,All user,Phi tài chính,Trả lời khảo sát 2 câu,Hoàn thành khảo sát trải nghiệm,,1,1,Tất cả
+A-NF-20,All user,Phi tài chính,Xem clip tính năng mới,Xem hết clip giới thiệu 20 giây,,1,1,Tất cả
+A-NF-21,All user,Phi tài chính,Thêm thẻ vào ví di động,Liên kết thẻ với Apple Pay hoặc Google Pay,,1,1,Tất cả
+A-NF-22,All user,Phi tài chính,Đăng ký sao kê điện tử,Bật nhận sao kê qua email,,1,1,Tất cả
+A-NF-23,All user,Phi tài chính,Xem ưu đãi đối tác,Mở 2 ưu đãi trong mục Đối tác,,1,1,Tất cả
+A-NF-24,All user,Phi tài chính,Tạo mã QR nhận tiền,Tạo và lưu mã QR của bạn,,1,1,Tất cả
+A-NF-25,All user,Phi tài chính,Cài hạn mức chuyển tiền,Đặt hạn mức chuyển tiền theo ngày,,1,1,Tất cả
+A-FD-01,All user,Tài chính hằng ngày,Chuyển tiền từ 10.000đ,Người nhận không phải chính bạn,10000,1,1,Tất cả
+A-FD-02,All user,Tài chính hằng ngày,Nạp điện thoại từ 20.000đ,Cho số của bạn hoặc người thân,20000,1,1,Tất cả
+A-FD-03,All user,Tài chính hằng ngày,Thanh toán hóa đơn điện,Hóa đơn kỳ hiện tại,10000,1,1,Tất cả
+A-FD-04,All user,Tài chính hằng ngày,Thanh toán hóa đơn nước,Hóa đơn kỳ hiện tại,10000,1,1,Tất cả
+A-FD-05,All user,Tài chính hằng ngày,Thanh toán cước internet,Hóa đơn kỳ hiện tại,10000,1,1,Tất cả
+A-FD-06,All user,Tài chính hằng ngày,Quét QR thanh toán từ 10.000đ,Thanh toán VietQR tại cửa hàng,10000,1,1,Tất cả
+A-FD-07,All user,Tài chính hằng ngày,Nạp ví điện tử từ 50.000đ,Ví đã liên kết với tài khoản,50000,1,1,Tất cả
+A-FD-08,All user,Tài chính hằng ngày,Mua mã thẻ cào từ 10.000đ,Mua trong mục Nạp tiền,10000,1,1,Tất cả
+A-FD-09,All user,Tài chính hằng ngày,Chuyển nhanh liên ngân hàng,"Từ 20.000đ, người nhận ở ngân hàng khác",20000,1,1,Tất cả
+A-FD-10,All user,Tài chính hằng ngày,Trả nợ thẻ tín dụng,Bất kỳ số tiền nào từ 10.000đ,10000,1,1,Tất cả
+A-FD-11,All user,Tài chính hằng ngày,Gửi tiết kiệm online từ 100.000đ,"Kỳ hạn bất kỳ, không tất toán trong 7 ngày",100000,1,1,Tất cả
+A-FD-12,All user,Tài chính hằng ngày,Nộp học phí online,Trường có trong danh sách liên kết,50000,1,1,Tất cả
+A-FS-01,All user,Tài chính theo phân khúc,Nạp data từ 10.000đ,Gói data bất kỳ,10000,1,1,Gen Z
+A-FS-02,All user,Tài chính theo phân khúc,Mua 1 vé xem phim,Suất chiếu trong 14 ngày,50000,1,1,Gen Z
+A-FS-03,All user,Tài chính theo phân khúc,Nạp điện thoại cho người thân,Số trong danh bạ gia đình,20000,1,1,Gia đình
+A-FS-04,All user,Tài chính theo phân khúc,Thanh toán cước truyền hình,Hóa đơn kỳ hiện tại,50000,1,1,Gia đình
+A-FS-05,All user,Tài chính theo phân khúc,Thanh toán bữa trưa qua app,Tại nhà hàng hoặc app đối tác,30000,1,1,Dân văn phòng
+A-FS-06,All user,Tài chính theo phân khúc,Thanh toán 1 chuyến xe công nghệ,Thanh toán bằng tài khoản hoặc thẻ,20000,1,1,Dân văn phòng
+A-FS-07,All user,Tài chính theo phân khúc,Nhận 1 thanh toán QR bán hàng,Khách quét QR cửa hàng của bạn,10000,1,1,Hộ kinh doanh
+A-FS-08,All user,Tài chính theo phân khúc,Đặt vé xe khách hoặc tàu,Đặt trong mục Du lịch,100000,1,1,Mê du lịch
+U-NF-01,Upgrade,Phi tài chính,Mời bạn mở tài khoản và gửi tiết kiệm,Bạn được mời eKYC và gửi tiết kiệm từ 500.000đ,,1,3,Tất cả
+U-NF-02,Upgrade,Phi tài chính,Viết lời cổ vũ nghệ sĩ,Lời cổ vũ được duyệt và hiển thị,,1,2,Tất cả
+U-NF-03,Upgrade,Phi tài chính,Xem livestream 5 phút,Xem liên tục tối thiểu 5 phút,,1,2,Tất cả
+U-NF-04,Upgrade,Phi tài chính,Dự đoán Top 3 chung kết,Gửi dự đoán trước đêm chung kết,,1,2,Tất cả
+U-NF-05,Upgrade,Phi tài chính,Chia sẻ thẻ vote vàng,Link có ít nhất 3 lượt mở,,1,2,Tất cả
+U-NF-06,Upgrade,Phi tài chính,Xem video tư vấn đầu tư,Xem hết video 2 phút,,1,2,Tất cả
+U-NF-07,Upgrade,Phi tài chính,Hoàn thành hồ sơ tài chính,"Điền đủ thu nhập, mục tiêu, khẩu vị rủi ro",,1,2,Tất cả
+U-NF-08,Upgrade,Phi tài chính,Đặt mục tiêu tiết kiệm,Tạo 1 mục tiêu có số tiền và thời hạn,,1,2,Tất cả
+U-NF-09,Upgrade,Phi tài chính,Đăng ký bản tin ưu đãi riêng,Bật nhận bản tin cho khách Upgrade,,1,2,Tất cả
+U-NF-10,Upgrade,Phi tài chính,Xem báo cáo chi tiêu tháng,"Mở báo cáo chi tiêu, tối thiểu 15 giây",,1,2,Tất cả
+U-FD-01,Upgrade,Tài chính hằng ngày,Chuyển tiền từ 500.000đ,Người nhận không phải chính bạn,500000,1,2,Tất cả
+U-FD-02,Upgrade,Tài chính hằng ngày,Chuyển cho 3 người khác nhau,"Mỗi lệnh từ 100.000đ, 3 người nhận khác nhau trong ngày",100000,3,3,Tất cả
+U-FD-03,Upgrade,Tài chính hằng ngày,Nạp điện thoại từ 100.000đ,Một giao dịch từ 100.000đ,100000,1,2,Tất cả
+U-FD-04,Upgrade,Tài chính hằng ngày,Thanh toán 3 hóa đơn trong ngày,"3 hóa đơn khác loại, kỳ hiện tại",20000,3,3,Tất cả
+U-FD-05,Upgrade,Tài chính hằng ngày,Gửi thêm tiết kiệm từ 2 triệu,"Kỳ hạn từ 6 tháng, không tính sổ dùng để mở khóa",2000000,1,4,Tất cả
+U-FD-06,Upgrade,Tài chính hằng ngày,Gửi tiết kiệm 12 tháng từ 5 triệu,"Kỳ hạn 12 tháng, không tất toán trước 30 ngày",5000000,1,5,Tất cả
+U-FD-07,Upgrade,Tài chính hằng ngày,Mở tích lũy tự động hằng tháng,"Từ 500.000đ/tháng, tối thiểu 6 kỳ",500000,1,4,Tất cả
+U-FD-08,Upgrade,Tài chính hằng ngày,Thanh toán thẻ tín dụng từ 1 triệu,Thanh toán dư nợ sao kê,1000000,1,3,Tất cả
+U-FD-09,Upgrade,Tài chính hằng ngày,Chi tiêu thẻ tín dụng từ 500.000đ,"Giao dịch mua sắm, không tính rút tiền mặt",500000,1,3,Tất cả
+U-FD-10,Upgrade,Tài chính hằng ngày,Mua sắm online bằng thẻ ghi nợ,Từ 300.000đ trên website hoặc app,300000,1,2,Tất cả
+U-FD-11,Upgrade,Tài chính hằng ngày,Mua chứng chỉ quỹ từ 1 triệu,Giữ tối thiểu 30 ngày,1000000,1,4,Tất cả
+U-FD-12,Upgrade,Tài chính hằng ngày,Mua chứng chỉ tiền gửi,Từ 5.000.000đ,5000000,1,4,Tất cả
+U-FD-13,Upgrade,Tài chính hằng ngày,Mua bảo hiểm sức khỏe online,"Hợp đồng có hiệu lực, qua thời gian cân nhắc 21 ngày",500000,1,5,Tất cả
+U-FD-14,Upgrade,Tài chính hằng ngày,Quét QR thanh toán từ 200.000đ,"Tại cửa hàng, không tính QR chuyển khoản cá nhân",200000,1,2,Tất cả
+U-FD-15,Upgrade,Tài chính hằng ngày,Nạp ví điện tử từ 500.000đ,Ví đã liên kết với tài khoản,500000,1,2,Tất cả
+U-FD-16,Upgrade,Tài chính hằng ngày,Đặt lịch chuyển tiền định kỳ,"Lịch hằng tháng, kỳ đầu thực hiện thành công",100000,1,2,Tất cả
+U-FD-17,Upgrade,Tài chính hằng ngày,Đóng học phí từ 2 triệu,Trường có trong danh sách liên kết,2000000,1,3,Tất cả
+U-FD-18,Upgrade,Tài chính hằng ngày,Mở thêm tài khoản số đẹp,"Tài khoản mở thành công, phí theo biểu hiện hành",,1,3,Tất cả
+U-FD-19,Upgrade,Tài chính hằng ngày,Mở thẻ tín dụng,Thẻ được duyệt và kích hoạt,,1,5,Tất cả
+U-FD-20,Upgrade,Tài chính hằng ngày,Trả góp khoản vay đúng hạn,Thanh toán kỳ này trước ngày đến hạn,100000,1,3,Tất cả
+U-FD-21,Upgrade,Tài chính hằng ngày,Mua ngoại tệ online từ 100 USD,Có mục đích hợp lệ theo quy định,2500000,1,3,Tất cả
+U-FD-22,Upgrade,Tài chính hằng ngày,Thanh toán phí chung cư,Tòa nhà có trong danh sách liên kết,200000,1,2,Tất cả
+U-FD-23,Upgrade,Tài chính hằng ngày,Nạp tiền tài khoản chứng khoán,Từ 1.000.000đ vào tài khoản đứng tên bạn ở công ty liên kết,1000000,1,3,Tất cả
+U-FD-24,Upgrade,Tài chính hằng ngày,Đóng phí bảo hiểm định kỳ,Hợp đồng đang hiệu lực,300000,1,3,Tất cả
+U-FD-25,Upgrade,Tài chính hằng ngày,Nhận kiều hối từ nước ngoài,Khoản nhận qua kênh chuyển tiền quốc tế,,1,4,Tất cả
+U-FS-01,Upgrade,Tài chính theo phân khúc,Mua vé concert,"Từ 1 vé, sự kiện chưa diễn ra",300000,1,4,Gen Z
+U-FS-02,Upgrade,Tài chính theo phân khúc,Nạp gói data tháng,Gói 30 ngày từ 90.000đ,90000,1,3,Gen Z
+U-FS-03,Upgrade,Tài chính theo phân khúc,"Thanh toán gói nghe nhạc, xem phim",Gói tháng của dịch vụ đối tác,50000,1,3,Gen Z
+U-FS-04,Upgrade,Tài chính theo phân khúc,Mua 2 vé xem phim,Từ 2 vé trong cùng 1 giao dịch,100000,1,3,Gen Z
+U-FS-05,Upgrade,Tài chính theo phân khúc,Mua sắm ở trung tâm thương mại,Quẹt thẻ từ 500.000đ,500000,1,3,Gen Z
+U-FS-06,Upgrade,Tài chính theo phân khúc,Mua bảo hiểm cho con,Hợp đồng có hiệu lực,1000000,1,5,Gia đình
+U-FS-07,Upgrade,Tài chính theo phân khúc,Đóng học phí cho con,"Từ 1.000.000đ, trường liên kết",1000000,1,4,Gia đình
+U-FS-08,Upgrade,Tài chính theo phân khúc,Đi siêu thị từ 1 triệu,Thanh toán thẻ hoặc QR tại siêu thị,1000000,1,3,Gia đình
+U-FS-09,Upgrade,Tài chính theo phân khúc,Mở sổ tiết kiệm cho con,"Kỳ hạn 12 tháng, từ 2.000.000đ",2000000,1,5,Gia đình
+U-FS-10,Upgrade,Tài chính theo phân khúc,Đi 2 chuyến xe công nghệ,2 chuyến thanh toán qua tài khoản trong ngày,20000,2,3,Dân văn phòng
+U-FS-11,Upgrade,Tài chính theo phân khúc,Mua khóa học online,Từ 500.000đ trên nền tảng đối tác,500000,1,4,Dân văn phòng
+U-FS-12,Upgrade,Tài chính theo phân khúc,Quét QR cà phê 3 lần,3 giao dịch QR ở 3 quán khác nhau,20000,3,3,Dân văn phòng
+U-FS-13,Upgrade,Tài chính theo phân khúc,Nhận 10 thanh toán QR bán hàng,10 khách khác nhau quét QR cửa hàng,10000,10,5,Hộ kinh doanh
+U-FS-14,Upgrade,Tài chính theo phân khúc,Chi lương nhân viên qua app,"Chi lương theo lô, từ 2 người nhận",1000000,1,5,Hộ kinh doanh
+U-FS-15,Upgrade,Tài chính theo phân khúc,Nộp thuế điện tử,Nộp thuế hộ kinh doanh qua app,100000,1,4,Hộ kinh doanh
+U-FS-16,Upgrade,Tài chính theo phân khúc,Thanh toán nhà cung cấp,Từ 5.000.000đ cho đơn vị đã lưu,5000000,1,4,Hộ kinh doanh
+U-FS-17,Upgrade,Tài chính theo phân khúc,Đặt vé máy bay từ 1 triệu,Đặt trong mục Du lịch,1000000,1,5,Mê du lịch
+U-FS-18,Upgrade,Tài chính theo phân khúc,Đặt phòng khách sạn,"Từ 1 đêm, đặt qua đối tác",500000,1,4,Mê du lịch
+U-FS-19,Upgrade,Tài chính theo phân khúc,Mua bảo hiểm du lịch,Có hiệu lực cho chuyến đi sắp tới,50000,1,3,Mê du lịch
+U-FS-20,Upgrade,Tài chính theo phân khúc,Chi tiêu thẻ ở nước ngoài,Giao dịch ngoại tệ từ 200.000đ quy đổi,200000,1,4,Mê du lịch
