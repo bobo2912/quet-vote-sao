@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quẹt Vote Sao</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: phone-sized app column + side "control room" panel that wraps under it on narrow screens */
+:root{
+  --bg:#EEF1F6; --surface:#FFFFFF; --surface-2:#F5F7FB; --line:#DCE1EA;
+  --ink:#151A28; --muted:#5E6779;
+  --accent:#E0245E; --accent-ink:#FFFFFF; --accent-soft:#FDE6EE;
+  --gold:#C98A00; --gold-bg:#FFF4D1; --gold-strong:#F5B400;
+  --nf:#0E8C7A; --nf-soft:#DDF4EF;
+  --fd:#2D55E0; --fd-soft:#E2E9FD;
+  --fs:#B0279B; --fs-soft:#F8E1F4;
+  --ok:#11845B; --ok-soft:#DDF3E9; --bad:#C62E2E; --bad-soft:#FBE3E3;
+  --shadow:0 10px 30px rgba(21,26,40,.12);
+  --f-display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C0F17; --surface:#161B27; --surface-2:#1D2332; --line:#2A3244;
+  --ink:#EDF0F7; --muted:#9AA3B6;
+  --accent:#FF4D84; --accent-ink:#1A0610; --accent-soft:#3A1524;
+  --gold:#FFC93D; --gold-bg:#3A2D08; --gold-strong:#F5B400;
+  --nf:#3FD1B9; --nf-soft:#123430; --fd:#7C9BFF; --fd-soft:#1A2448; --fs:#E871D6; --fs-soft:#3A1636;
+  --ok:#4AD39A; --ok-soft:#123326; --bad:#FF7B7B; --bad-soft:#3A1717;
+  --shadow:0 10px 30px rgba(0,0,0,.45); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0C0F17; --surface:#161B27; --surface-2:#1D2332; --line:#2A3244;
+  --ink:#EDF0F7; --muted:#9AA3B6;
+  --accent:#FF4D84; --accent-ink:#1A0610; --accent-soft:#3A1524;
+  --gold:#FFC93D; --gold-bg:#3A2D08; --gold-strong:#F5B400;
+  --nf:#3FD1B9; --nf-soft:#123430; --fd:#7C9BFF; --fd-soft:#1A2448; --fs:#E871D6; --fs-soft:#3A1636;
+  --ok:#4AD39A; --ok-soft:#123326; --bad:#FF7B7B; --bad-soft:#3A1717;
+  --shadow:0 10px 30px rgba(0,0,0,.45); color-scheme:dark;}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;align-items:flex-start;max-width:1000px;margin:0 auto}
+.app{width:100%;max-width:420px;background:var(--surface);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--line)}
+.side{flex:1 1 340px;max-width:520px;min-width:0;display:flex;flex-direction:column;gap:16px}
+
+/* App header */
+.top{padding:18px 18px 14px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--line)}
+.top-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.brand span{color:var(--accent)}
+.hello{font-size:12px;color:var(--muted)}
+.balance{display:flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:6px 12px 6px 8px;font-weight:700;transition:transform .2s}
+.balance.bump{transform:scale(1.12)}
+.balance .tk{width:22px;height:22px;border-radius:50%;background:var(--accent-ink);color:var(--accent);display:grid;place-items:center;font-size:11px;font-weight:800}
+.balance b{font-family:var(--f-display);font-size:18px;font-variant-numeric:tabular-nums}
+.boosters{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.chip.on{background:var(--gold-bg);color:var(--gold);border-color:transparent}
+.meters{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.meter{background:var(--surface-2);border-radius:14px;padding:10px 12px}
+.meter .lb{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.meter .v{font-family:var(--f-display);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums}
+.meter .v small{font-size:13px;color:var(--muted);font-weight:500}
+.bar{height:5px;background:var(--line);border-radius:9px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:9px;transition:width .4s}
+
+/* Tabs */
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--surface);z-index:5}
+.tab{background:none;border:0;padding:12px 4px;font-weight:600;font-size:13px;color:var(--muted);border-bottom:2.5px solid transparent}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane{padding:18px;display:flex;flex-direction:column;gap:16px;min-height:520px}
+.h{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.01em;margin:0}
+.sub{color:var(--muted);font-size:12.5px;margin:2px 0 0}
+
+/* Deck */
+.deck{position:relative;height:330px;margin:4px 6px 0}
+.card{position:absolute;inset:0;border-radius:22px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;overflow:hidden;touch-action:pan-y;user-select:none;transition:transform .3s ease}
+.card.golden{border:2px solid var(--gold-strong)}
+.card .band{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .type{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.card .tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--gold-strong);color:#2B1D00}
+.card.t-nf .band{background:var(--nf-soft);color:var(--nf)}
+.card.t-fd .band{background:var(--fd-soft);color:var(--fd)}
+.card.t-fs .band{background:var(--fs-soft);color:var(--fs)}
+.card .body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card .title{font-family:var(--f-display);font-weight:800;font-size:25px;line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+.card .desc{color:var(--muted);font-size:13px}
+.card .cond{font-size:12.5px;background:var(--surface-2);border-radius:10px;padding:8px 10px}
+.card .reward{margin-top:auto;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.card .reward b{font-family:var(--f-display);font-size:34px;font-weight:800;color:var(--accent);line-height:1}
+.card .reward span{font-size:12px;color:var(--muted)}
+.stamp{position:absolute;top:58px;font-family:var(--f-display);font-weight:800;font-size:26px;padding:4px 12px;border:3px solid;border-radius:10px;opacity:0;pointer-events:none}
+.stamp.yes{left:16px;color:var(--ok);transform:rotate(-12deg)}
+.stamp.no{right:16px;color:var(--bad);transform:rotate(12deg)}
+.deck-empty{position:absolute;inset:0;border:2px dashed var(--line);border-radius:22px;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted)}
+.deck-empty b{display:block;font-family:var(--f-display);font-size:20px;color:var(--ink);margin-bottom:6px}
+.swipe-btns{display:flex;justify-content:center;gap:28px;align-items:center}
+.circle{width:58px;height:58px;border-radius:50%;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);font-size:22px;font-weight:700;display:grid;place-items:center}
+.circle.no{color:var(--bad)} .circle.yes{color:var(--ok)}
+.circle:disabled{opacity:.35;cursor:not-allowed}
+.hint{font-size:12px;color:var(--muted);text-align:center}
+
+/* Accepted list */
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+.dot.t-nf{background:var(--nf)} .dot.t-fd{background:var(--fd)} .dot.t-fs{background:var(--fs)}
+.item .info{flex:1;min-width:0}
+.item .nm{font-weight:600;font-size:13.5px}
+.item .mt{font-size:12px;color:var(--muted)}
+.btn{border:0;border-radius:12px;padding:9px 14px;font-weight:700;font-size:13px;background:var(--accent);color:var(--accent-ink);white-space:nowrap}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.done-pill{font-size:12px;font-weight:700;color:var(--ok);background:var(--ok-soft);padding:5px 10px;border-radius:999px;white-space:nowrap}
+.empty{color:var(--muted);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:14px;text-align:center}
+.combo{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.combo .c{padding:3px 8px;border-radius:999px;border:1px solid var(--line)}
+.combo .c.hit-nf{background:var(--nf-soft);color:var(--nf);border-color:transparent}
+.combo .c.hit-fd{background:var(--fd-soft);color:var(--fd);border-color:transparent}
+.combo .c.hit-fs{background:var(--fs-soft);color:var(--fs);border-color:transparent}
+
+/* Vote */
+.artist{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.ava{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;color:#fff;font-size:16px}
+.artist .nm{font-weight:700}
+.artist .cnt{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.artist .bar{margin-top:5px}
+.vbtns{display:flex;gap:6px}
+.vbtns .btn{padding:8px 10px}
+.rank{font-size:11px;font-weight:700;color:var(--gold)}
+
+/* Log */
+.log{display:flex;flex-direction:column;gap:8px}
+.log .row{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:12.5px;padding:10px 12px;border-radius:12px;background:var(--surface-2)}
+.log .row.ok{background:var(--ok-soft)} .log .row.block{background:var(--bad-soft)}
+.log .tm{font-variant-numeric:tabular-nums;color:var(--muted);font-size:11.5px;padding-top:1px}
+.log .row.ok .k{color:var(--ok);font-weight:700} .log .row.block .k{color:var(--bad);font-weight:700}
+
+/* Rules */
+.rule{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.rule h4{margin:0;font-family:var(--f-display);font-size:15px}
+.rule p,.rule li{margin:0;font-size:13px;color:var(--muted)}
+.rule ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th,.tbl td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+
+/* Side panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.panel .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--accent)}
+.panel h3{margin:0;font-family:var(--f-display);font-size:19px;letter-spacing:-.01em}
+.panel p{margin:0;color:var(--muted);font-size:13px}
+.presets{display:flex;flex-direction:column;gap:8px}
+.preset{text-align:left;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.preset[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.preset b{font-size:13px} .preset span{font-size:11.5px;color:var(--muted)}
+.cheats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cheats .btn{white-space:normal;text-align:left;font-weight:600;font-size:12.5px}
+.clock{font-family:var(--f-display);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+
+/* Sheet */
+.overlay{position:fixed;inset:0;background:rgba(10,12,20,.5);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheet{width:100%;max-width:440px;background:var(--surface);border-radius:24px 24px 0 0;padding:20px max(18px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;max-height:88vh;overflow:auto;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:600;color:var(--muted)}
+.field input,.field select{font:inherit;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink)}
+.checks{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.ck{display:flex;gap:8px;align-items:flex-start;opacity:.35;transition:opacity .2s}
+.ck.show{opacity:1}
+.ck i{font-style:normal;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;flex:none;margin-top:1px;background:var(--line)}
+.ck.pass i{background:var(--ok);color:#fff} .ck.fail i{background:var(--bad);color:#fff}
+.ck.fail{color:var(--bad)}
+.prog{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--nf)}
+.result{border-radius:14px;padding:12px 14px;font-weight:600}
+.result.ok{background:var(--ok-soft);color:var(--ok)} .result.bad{background:var(--bad-soft);color:var(--bad)}
+.result big{display:block;font-family:var(--f-display);font-size:28px;font-weight:800}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;z-index:60;max-width:min(90vw,420px);text-align:center}
+.float{position:fixed;font-family:var(--f-display);font-weight:800;font-size:30px;color:var(--accent);pointer-events:none;z-index:70;animation:fl 1.1s ease forwards}
+@keyframes fl{from{opacity:1;transform:translateY(0) scale(.8)}to{opacity:0;transform:translateY(-90px) scale(1.2)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <main class="app" aria-label="Mini app bình chọn">
+    <header class="top">
+      <div class="top-row">
+        <div>
+          <div class="brand">Quẹt <span>Vote</span> Sao</div>
+          <div class="hello" id="hello"></div>
+        </div>
+        <div class="balance" id="balance" title="Lượt vote đang có"><span class="tk">V</span><b id="balNum">0</b></div>
+      </div>
+      <div class="boosters" id="boosters"></div>
+      <div class="meters">
+        <div class="meter"><div class="lb">Thử thách đã nhận</div><div class="v" id="mSlots"></div><div class="bar"><i id="mSlotsBar"></i></div></div>
+        <div class="meter"><div class="lb">Vote kiếm hôm nay</div><div class="v" id="mVotes"></div><div class="bar"><i id="mVotesBar"></i></div></div>
+      </div>
+    </header>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="play" aria-selected="true">Thử thách</button>
+      <button class="tab" role="tab" data-tab="vote" aria-selected="false">Bình chọn</button>
+      <button class="tab" role="tab" data-tab="log" aria-selected="false">Lịch sử</button>
+      <button class="tab" role="tab" data-tab="rules" aria-selected="false">Luật chơi</button>
+    </nav>
+    <section class="pane" id="pane"></section>
+  </main>
+
+  <aside class="side">
+    <div class="panel">
+      <div class="eyebrow">Bảng điều khiển demo</div>
+      <h3>Đổi giờ máy chủ</h3>
+      <p>Mỗi mốc là một ngày khác nhau, nên bạn thấy được lượt reset theo ngày và tác dụng của giờ vàng, ngày vàng, cuối tuần.</p>
+      <div class="clock" id="clock"></div>
+      <div class="presets" id="presets"></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Thử gian lận</div>
+      <h3>Hệ thống chặn thế nào?</h3>
+      <p>Bấm để mô phỏng các kiểu gian lận hay gặp. Kết quả ghi vào tab Lịch sử.</p>
+      <div class="cheats">
+        <button class="btn ghost" id="c1">Dùng lại mã giao dịch đã nhận thưởng</button>
+        <button class="btn ghost" id="c2">Bấm "Nhận lượt" 2 lần cùng lúc</button>
+        <button class="btn ghost" id="c3">Chỉnh giờ điện thoại sang giờ vàng</button>
+        <button class="btn ghost" id="c4">Tải lại app để đổi bộ thẻ</button>
+        <button class="btn ghost" id="c5">Chuyển tiền qua lại giữa 2 tài khoản</button>
+        <button class="btn ghost" id="c6">Hoàn/hủy giao dịch sau khi nhận vote</button>
+      </div>
+      <button class="btn ghost" id="reset">Xóa dữ liệu demo</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+const USER={id:'KH-0291',name:'Minh',segs:['genz','giaitri'],segLabel:'Gen Z · Giải trí'};
+const BASE_SLOTS=3, WEEKEND_SLOTS=5, DAY_VOTE_CAP=30, ARTIST_DAY_CAP=20, NF_DAY_CAP=2, MULT_CAP=3, COMBO_BONUS=2;
+const TYPES={nf:'Phi tài chính',fd:'Tài chính · Hằng ngày',fs:'Tài chính · Dành cho bạn'};
+const POOL=[
+ {id:'nf-menu',type:'nf',kind:'watch',title:'Xem menu ưu đãi tháng 10',desc:'Lướt hết 3 trang ưu đãi trong app.',cond:'Xem đủ 3 trang, mỗi trang tối thiểu 5 giây',base:1},
+ {id:'nf-video',type:'nf',kind:'watch',title:'Xem video hậu trường 30 giây',desc:'Clip tập luyện của các nghệ sĩ đề cử.',cond:'Xem hết video, app đang mở ở tiền cảnh',base:1},
+ {id:'nf-login',type:'nf',kind:'watch',title:'Đăng nhập app hôm nay',desc:'Mở app và đăng nhập bằng sinh trắc học.',cond:'Một lần mỗi ngày, trên thiết bị đã đăng ký',base:1},
+ {id:'nf-share',type:'nf',kind:'share',title:'Chia sẻ bài bình chọn',desc:'Chia sẻ bảng xếp hạng lên mạng xã hội.',cond:'Link chia sẻ phải có ít nhất 1 lượt mở',base:1},
+ {id:'nf-invite',type:'nf',kind:'invite',title:'Mời 1 bạn mở tài khoản',desc:'Gửi mã giới thiệu cho bạn bè.',cond:'Bạn được mời hoàn tất eKYC và có giao dịch đầu tiên',base:1},
+ {id:'nf-noti',type:'nf',kind:'watch',title:'Bật thông báo giờ vàng',desc:'Nhận nhắc khi giờ vàng bắt đầu.',cond:'Bật thông báo đẩy cho chương trình',base:1},
+ {id:'fd-transfer',type:'fd',kind:'transfer',title:'Chuyển tiền từ 50.000đ',desc:'Chuyển khoản tới bất kỳ ngân hàng nào.',cond:'Từ 50.000đ, người nhận không phải chính bạn',min:50000,base:2},
+ {id:'fd-topup',type:'fd',kind:'pay',title:'Nạp điện thoại từ 100.000đ',desc:'Nạp cho số của bạn hoặc người thân.',cond:'Một giao dịch từ 100.000đ',min:100000,base:2},
+ {id:'fd-bill',type:'fd',kind:'pay',title:'Thanh toán 1 hóa đơn',desc:'Điện, nước, internet hoặc truyền hình.',cond:'Hóa đơn của kỳ hiện tại, từ 20.000đ',min:20000,base:2},
+ {id:'fd-saving',type:'fd',kind:'pay',title:'Mở tiết kiệm kỳ hạn từ 6 tháng',desc:'Gửi online, lãi suất theo biểu hiện hành.',cond:'Kỳ hạn ≥ 6 tháng, từ 1.000.000đ, không tất toán trước 30 ngày',min:1000000,base:3},
+ {id:'fs-movie',type:'fs',kind:'pay',segs:['genz','giaitri'],title:'Mua vé xem phim',desc:'Đặt vé tại rạp đối tác ngay trong app.',cond:'Ít nhất 1 vé, suất chiếu trong 14 ngày',min:60000,base:3},
+ {id:'fs-data',type:'fs',kind:'pay',segs:['genz'],title:'Nạp gói data 4G/5G',desc:'Gói từ 7 ngày trở lên.',cond:'Gói data từ 50.000đ',min:50000,base:3},
+ {id:'fs-concert',type:'fs',kind:'pay',segs:['giaitri'],title:'Mua vé concert',desc:'Vé sự kiện âm nhạc trên mục Giải trí.',cond:'Từ 1 vé, sự kiện chưa diễn ra',min:300000,base:3},
+ {id:'fs-qr',type:'fs',kind:'pay',segs:['genz'],title:'Quét QR tại quán cà phê',desc:'Thanh toán VietQR tại cửa hàng.',cond:'Một giao dịch QR từ 30.000đ',min:30000,base:3},
+ {id:'fs-family',type:'fs',kind:'pay',segs:['giadinh'],title:'Nạp tiền điện thoại cho bố mẹ',desc:'Nạp cho số đã lưu trong danh bạ gia đình.',cond:'Từ 100.000đ',min:100000,base:3},
+];
+const ARTISTS=[
+ {id:'a1',name:'Lam Anh',genre:'Pop ballad',c:'#E0245E',seed:18420},
+ {id:'a2',name:'Mây Tháng Mười',genre:'Indie band',c:'#2D55E0',seed:17210},
+ {id:'a3',name:'Kha Duy',genre:'Rap',c:'#0E8C7A',seed:16980},
+ {id:'a4',name:'Bảo Ngọc',genre:'R&B',c:'#B0279B',seed:14105},
+ {id:'a5',name:'Neon Rice',genre:'EDM',c:'#C98A00',seed:12890},
+ {id:'a6',name:'Trúc Vy',genre:'Acoustic',c:'#5E6779',seed:11030},
+];
+const PRESETS=[
+ {id:'now',label:'Giờ thực',note:'Theo đồng hồ hiện tại'},
+ {id:'p1',label:'Thứ Hai 12/10 · 09:10',note:'Ngày thường',d:[2026,9,12,9,10]},
+ {id:'p2',label:'Thứ Ba 13/10 · 12:20',note:'Giờ vàng',d:[2026,9,13,12,20]},
+ {id:'p3',label:'Thứ Bảy 17/10 · 20:15',note:'Cuối tuần + Giờ vàng',d:[2026,9,17,20,15]},
+ {id:'p4',label:'Thứ Năm 15/10 · 14:40',note:'Ngày vàng',d:[2026,9,15,14,40]},
+];
+
+// ---------- state ----------
+const KEY='quet-vote-sao-v1';
+let S=load();
+function fresh(){return {preset:'now',balance:0,usedTxns:[],days:{},artist:{},artistDay:{},log:[]};}
+function load(){try{const r=localStorage.getItem(KEY);if(r)return Object.assign(fresh(),JSON.parse(r));}catch(e){}return fresh();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+// ---------- server time & boosters ----------
+function now(){const p=PRESETS.find(x=>x.id===S.preset);if(!p||!p.d)return new Date();const[y,m,d,h,mi]=p.d;return new Date(y,m,d,h,mi);}
+function dKey(t){return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');}
+function boosters(t){
+  const day=t.getDay(),h=t.getHours(),dt=t.getDate(),mo=t.getMonth()+1;
+  return {weekend:day===0||day===6, goldenDay:dt===15||dt===mo, goldenHour:h===12||h===20};
+}
+function slotsFor(t){return boosters(t).weekend?WEEKEND_SLOTS:BASE_SLOTS;}
+function multFor(card,t,golden){
+  const b=boosters(t);let m=1;const why=[];
+  if(b.goldenDay){m*=2;why.push('Ngày vàng ×2');}
+  if(b.goldenHour&&card.type!=='nf'){m*=2;why.push('Giờ vàng ×2');}
+  if(golden){m*=2;why.push('Thẻ vàng ×2');}
+  return {m:Math.min(m,MULT_CAP),raw:m,why};
+}
+function day(){const k=dKey(now());if(!S.days[k])S.days[k]={idx:0,accepted:[],earned:0,claims:0,nf:0,combo:false};return S.days[k];}
+
+// ---------- seeded deck (same customer + same date = same deck) ----------
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function shuffle(arr,r){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function deck(){
+  const t=now(),r=rng(hash(USER.id+'|'+dKey(t)));
+  const nf=shuffle(POOL.filter(c=>c.type==='nf'),r).slice(0,2);
+  const fd=shuffle(POOL.filter(c=>c.type==='fd'),r).slice(0,3);
+  const fs=shuffle(POOL.filter(c=>c.type==='fs'&&c.segs.some(s=>USER.segs.includes(s))),r).slice(0,2);
+  const all=shuffle(nf.concat(fd,fs),r);
+  const gi=(boosters(t).goldenDay||r()<0.5)?Math.floor(r()*all.length):-1;
+  return all.map((c,i)=>Object.assign({},c,{golden:i===gi}));
+}
+
+// ---------- helpers ----------
+const $=s=>document.querySelector(s);
+const money=n=>Number(n).toLocaleString('vi-VN')+'đ';
+const hhmm=t=>String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function log(kind,text){S.log.unshift({t:hhmm(now())+' '+dKey(now()).slice(5).split('-').reverse().join('/'),kind,text});S.log=S.log.slice(0,80);save();}
+let toastT;function toast(m){let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';document.body.appendChild(el);}el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,2600);}
+function floatUp(txt){const b=$('#balance').getBoundingClientRect();const f=document.createElement('div');f.className='float';f.textContent=txt;f.style.left=(b.left+10)+'px';f.style.top=(b.bottom+4)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1200);const bl=$('#balance');bl.classList.add('bump');setTimeout(()=>bl.classList.remove('bump'),250);}
+
+// ---------- header ----------
+function renderHeader(){
+  const t=now(),b=boosters(t),d=day(),slots=slotsFor(t);
+  $('#hello').textContent='Chào '+USER.name+' · '+USER.segLabel;
+  $('#balNum').textContent=S.balance;
+  const chips=[
+    [b.goldenDay,'Ngày vàng · mọi vote ×2'],
+    [b.goldenHour,'Giờ vàng · tài chính ×2'],
+    [b.weekend,'Cuối tuần · '+WEEKEND_SLOTS+' thử thách'],
+  ];
+  const on=chips.filter(c=>c[0]);
+  $('#boosters').innerHTML=(on.length?on:[[0,'Hôm nay không có ưu đãi · giờ vàng 12h và 20h']]).map(c=>'<span class="chip'+(c[0]?' on':'')+'">'+c[1]+'</span>').join('');
+  $('#mSlots').innerHTML=d.accepted.length+' <small>/ '+slots+'</small>';
+  $('#mSlotsBar').style.width=Math.min(100,d.accepted.length/slots*100)+'%';
+  $('#mVotes').innerHTML=d.earned+' <small>/ '+DAY_VOTE_CAP+'</small>';
+  $('#mVotesBar').style.width=Math.min(100,d.earned/DAY_VOTE_CAP*100)+'%';
+  $('#clock').textContent='Giờ máy chủ: '+['CN','T2','T3','T4','T5','T6','T7'][t.getDay()]+' '+t.toLocaleDateString('vi-VN')+' · '+hhmm(t);
+}
+
+// ---------- tabs ----------
+let TAB='play';
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===b));render();});
+function render(){renderHeader();renderPresets();({play:renderPlay,vote:renderVote,log:renderLog,rules:renderRules})[TAB]();}
+
+// ---------- play ----------
+function cardHTML(c,t){
+  const mu=multFor(c,t,c.golden),v=c.base*mu.m;
+  return '<div class="card t-'+c.type+(c.golden?' golden':'')+'">'+
+   '<div class="band"><span class="type">'+TYPES[c.type]+'</span>'+(c.golden?'<span class="tag">Thẻ vàng</span>':'')+'</div>'+
+   '<div class="body"><div class="title">'+esc(c.title)+'</div><div class="desc">'+esc(c.desc)+'</div>'+
+   '<div class="cond"><b>Điều kiện:</b> '+esc(c.cond)+'</div>'+
+   '<div class="reward"><b>+'+v+'</b><span>lượt vote'+(mu.why.length?' · '+mu.why.join(', ')+(mu.raw>mu.m?' (tối đa ×'+MULT_CAP+')':''):'')+'</span></div></div>'+
+   '<div class="stamp yes">NHẬN</div><div class="stamp no">BỎ QUA</div></div>';
+}
+function renderPlay(){
+  const t=now(),d=day(),dk=deck(),slots=slotsFor(t),left=dk.slice(d.idx),full=d.accepted.length>=slots;
+  const typesDone=new Set(d.accepted.filter(a=>a.done).map(a=>a.type));
+  let deckHTML;
+  if(full)deckHTML='<div class="deck-empty"><div><b>Đã nhận đủ '+slots+' thử thách</b>Làm xong các thử thách bên dưới để lấy vote. Bộ thẻ mới mở lúc 00:00.</div></div>';
+  else if(!left.length)deckHTML='<div class="deck-empty"><div><b>Hết thẻ hôm nay</b>Bạn đã lướt qua cả 7 thẻ. Quay lại ngày mai nhé.</div></div>';
+  else deckHTML=left.slice(0,3).reverse().map(c=>cardHTML(c,t)).join('');
+  $('#pane').innerHTML=
+   '<div><h2 class="h">Thử thách hôm nay</h2><p class="sub">Quẹt phải để nhận, quẹt trái để bỏ qua. Còn '+left.length+' thẻ · nhận tối đa '+slots+'.</p></div>'+
+   '<div class="deck" id="deck">'+deckHTML+'</div>'+
+   '<div class="swipe-btns"><button class="circle no" id="bNo" aria-label="Bỏ qua" '+(full||!left.length?'disabled':'')+'>✕</button><button class="circle yes" id="bYes" aria-label="Nhận thử thách" '+(full||!left.length?'disabled':'')+'>✓</button></div>'+
+   '<div><h2 class="h">Đã nhận</h2><div class="combo" style="margin-top:6px">Combo đủ 3 loại thưởng thêm +'+COMBO_BONUS+': '+
+     ['nf','fd','fs'].map(k=>'<span class="c'+(typesDone.has(k)?' hit-'+k:'')+'">'+TYPES[k].replace('Tài chính · ','')+'</span>').join('')+(d.combo?' <b style="color:var(--ok)">Đã nhận combo</b>':'')+'</div></div>'+
+   '<div class="list">'+(d.accepted.length?d.accepted.map((a,i)=>{
+      const c=POOL.find(p=>p.id===a.cardId);
+      return '<div class="item"><span class="dot t-'+c.type+'"></span><div class="info"><div class="nm">'+esc(c.title)+(a.golden?' · <span style="color:var(--gold)">Thẻ vàng</span>':'')+'</div><div class="mt">'+(a.done?'Hoàn thành lúc '+a.doneAt+' · +'+a.votes+' vote':TYPES[c.type]+' · nhận lúc '+a.at)+'</div></div>'+
+        (a.done?'<span class="done-pill">+'+a.votes+'</span>':'<button class="btn" data-do="'+i+'">Thực hiện</button>')+'</div>';
+    }).join(''):'<div class="empty">Chưa nhận thử thách nào. Quẹt phải một thẻ ở trên để bắt đầu.</div>')+'</div>';
+  document.querySelectorAll('[data-do]').forEach(b=>b.onclick=()=>openTask(+b.dataset.do));
+  const top=$('#deck .card:last-child');
+  if(top&&!full)bindSwipe(top);
+  $('#bNo').onclick=()=>top&&fly(top,-1);
+  $('#bYes').onclick=()=>top&&fly(top,1);
+}
+function bindSwipe(el){
+  let sx=0,sy=0,dx=0,drag=false;
+  const yes=el.querySelector('.stamp.yes'),no=el.querySelector('.stamp.no');
+  el.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX;sy=e.clientY;dx=0;el.style.transition='none';el.setPointerCapture(e.pointerId);});
+  el.addEventListener('pointermove',e=>{if(!drag)return;dx=e.clientX-sx;const dy=(e.clientY-sy)*.2;el.style.transform='translate('+dx+'px,'+dy+'px) rotate('+dx/18+'deg)';yes.style.opacity=Math.max(0,dx/100);no.style.opacity=Math.max(0,-dx/100);});
+  const end=()=>{if(!drag)return;drag=false;el.style.transition='';if(dx>100)fly(el,1);else if(dx<-100)fly(el,-1);else{el.style.transform='';yes.style.opacity=0;no.style.opacity=0;}};
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+}
+let busy=false;
+function fly(el,dir){
+  if(busy)return;busy=true;
+  el.style.transition='transform .3s ease';
+  el.querySelector(dir>0?'.stamp.yes':'.stamp.no').style.opacity=1;
+  el.style.transform='translate('+(dir*600)+'px,-30px) rotate('+(dir*25)+'deg)';
+  setTimeout(()=>{busy=false;decide(dir);},260);
+}
+function decide(dir){
+  const t=now(),d=day(),c=deck()[d.idx];if(!c)return;
+  d.idx++;
+  if(dir>0){d.accepted.push({cardId:c.id,type:c.type,golden:c.golden,at:hhmm(t),done:false});log('info','Nhận thử thách: '+c.title+(c.golden?' (thẻ vàng)':''));}
+  else log('info','Bỏ qua: '+c.title);
+  save();render();
+}
+
+// ---------- task sheet & server verification ----------
+let sheet=null;
+function closeSheet(){if(sheet){sheet.remove();sheet=null;}render();}
+function openTask(i){
+  const d=day(),a=d.accepted[i],c=POOL.find(p=>p.id===a.cardId),t=now();
+  const mu=multFor(c,t,a.golden);
+  const ov=document.createElement('div');ov.className='overlay';ov.onclick=e=>{if(e.target===ov)closeSheet();};
+  let form='';
+  if(c.type==='nf'){
+    form='<p class="sub">'+esc(c.cond)+'. Bản demo rút gọn còn 4 giây.</p><div class="prog"><i id="pg"></i></div><button class="btn" id="go">'+(c.kind==='invite'?'Gửi lời mời':c.kind==='share'?'Chia sẻ ngay':'Bắt đầu')+'</button>';
+  }else{
+    form='<div class="field"><label for="amt">Số tiền giao dịch</label><input id="amt" type="number" inputmode="numeric" value="'+c.min+'" step="1000"></div>'+
+      (c.kind==='transfer'?'<div class="field"><label for="to">Người nhận</label><select id="to"><option value="other">Trần Thu Hà · 0123 456 789 · VCB</option><option value="self">Tài khoản khác của chính bạn</option></select></div>':'')+
+      '<button class="btn" id="go">Xác nhận giao dịch</button>';
+  }
+  ov.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Thực hiện thử thách"><div><span class="chip">'+TYPES[c.type]+'</span></div><h2 class="h" style="font-size:22px">'+esc(c.title)+'</h2>'+
+    '<p class="sub">Phần thưởng dự kiến: <b style="color:var(--accent)">+'+c.base*mu.m+' vote</b>'+(mu.why.length?' ('+mu.why.join(', ')+')':'')+'. Hệ số tính theo giờ máy chủ lúc hoàn thành.</p>'+form+
+    '<div class="checks" id="checks"></div><div id="res"></div><button class="btn ghost" id="cl">Đóng</button></div>';
+  document.body.appendChild(ov);sheet=ov;
+  $('#cl').onclick=closeSheet;
+  $('#go').onclick=()=>{
+    $('#go').disabled=true;
+    if(c.type==='nf'){let p=0;const iv=setInterval(()=>{p+=5;$('#pg').style.width=p+'%';if(p>=100){clearInterval(iv);verify(i,{nf:true});}},200);}
+    else{
+      const amt=+$('#amt').value||0,toSelf=$('#to')&&$('#to').value==='self';
+      const txn='FT'+dKey(now()).replace(/-/g,'').slice(2)+Math.floor(Math.random()*9e5+1e5);
+      verify(i,{amt,toSelf,txn});
+    }
+  };
+}
+function verify(i,tx){
+  const d=day(),a=d.accepted[i],c=POOL.find(p=>p.id===a.cardId),t=now(),slots=slotsFor(t);
+  const checks=[];
+  if(tx.nf){
+    checks.push(['Thời gian xem/thao tác đủ, ghi nhận từ máy chủ (không tin số liệu gửi từ app)',true]);
+    checks.push(['Thiết bị đã đăng ký với tài khoản, không phải giả lập',true]);
+    checks.push(['Tối đa '+NF_DAY_CAP+' thử thách phi tài chính mỗi ngày (đã dùng '+d.nf+')',d.nf<NF_DAY_CAP]);
+    if(c.kind==='invite')checks.push(['Bạn được mời đã eKYC và có giao dịch đầu tiên (demo: giả lập đã xong)',true]);
+  }else{
+    checks.push(['Core banking xác nhận giao dịch thành công · '+tx.txn,true]);
+    checks.push(['Giao dịch diễn ra sau thời điểm nhận thử thách ('+a.at+')',true]);
+    checks.push(['Đạt giá trị tối thiểu '+money(c.min)+' (thực tế '+money(tx.amt)+')',tx.amt>=c.min]);
+    if(c.kind==='transfer')checks.push(['Người nhận không phải chính bạn hoặc tài khoản liên kết',!tx.toSelf]);
+    checks.push(['Mã giao dịch chưa từng dùng để nhận thưởng',!S.usedTxns.includes(tx.txn)]);
+  }
+  checks.push(['Còn hạn mức vote hôm nay ('+d.earned+'/'+DAY_VOTE_CAP+')',d.earned<DAY_VOTE_CAP]);
+  const box=$('#checks');
+  box.innerHTML=checks.map(ch=>'<div class="ck"><i></i><span>'+esc(ch[0])+'</span></div>').join('');
+  const els=box.querySelectorAll('.ck');let k=0,fail=null;
+  const step=()=>{
+    if(k>=checks.length||fail){finish();return;}
+    const ok=checks[k][1];els[k].classList.add('show',ok?'pass':'fail');els[k].querySelector('i').textContent=ok?'✓':'✕';
+    if(!ok)fail=checks[k][0];k++;setTimeout(step,320);
+  };
+  const finish=()=>{
+    if(fail){
+      $('#res').innerHTML='<div class="result bad">Chưa nhận được vote<br><span style="font-weight:500">'+esc(fail)+'. Thử thách vẫn giữ nguyên, bạn có thể làm lại giao dịch hợp lệ.</span></div>';
+      log('block','Từ chối '+c.title+': '+fail);$('#go').disabled=false;return;
+    }
+    const mu=multFor(c,t,a.golden);
+    let v=c.base*mu.m;
+    v=Math.min(v,DAY_VOTE_CAP-d.earned);
+    a.done=true;a.doneAt=hhmm(t);a.votes=v;a.txn=tx.txn||null;
+    d.earned+=v;d.claims++;if(c.type==='nf')d.nf++;
+    if(tx.txn){S.usedTxns.push(tx.txn);S.lastTxn=tx.txn;}
+    S.balance+=v;
+    let extra='';
+    const types=new Set(d.accepted.filter(x=>x.done).map(x=>x.type));
+    if(!d.combo&&types.size===3){const b=Math.min(COMBO_BONUS,DAY_VOTE_CAP-d.earned);d.combo=true;d.earned+=b;S.balance+=b;extra=' + combo '+b;log('ok','Combo đủ 3 loại thử thách: +'+b+' vote');}
+    log('ok','Hoàn thành '+c.title+': +'+v+' vote'+(mu.why.length?' ('+mu.why.join(', ')+')':'')+(tx.txn?' · '+tx.txn:''));
+    save();
+    $('#res').innerHTML='<div class="result ok"><big>+'+v+extra+' vote</big>Đã cộng vào ví bình chọn của bạn.</div>';
+    $('#go').hidden=true;floatUp('+'+v);renderHeader();
+  };
+  step();
+}
+
+// ---------- vote ----------
+function renderVote(){
+  const k=dKey(now());S.artistDay[k]=S.artistDay[k]||{};
+  const rows=ARTISTS.map(a=>({...a,total:a.seed+(S.artist[a.id]||0),mine:S.artistDay[k][a.id]||0})).sort((x,y)=>y.total-x.total);
+  const max=rows[0].total;
+  $('#pane').innerHTML='<div><h2 class="h">Bảng xếp hạng</h2><p class="sub">Bạn đang có <b style="color:var(--accent)">'+S.balance+' vote</b>. Mỗi nghệ sĩ nhận tối đa '+ARTIST_DAY_CAP+' vote/ngày từ một tài khoản.</p></div><div>'+
+   rows.map((a,i)=>'<div class="artist"><div class="ava" style="background:'+a.c+'">'+a.name.split(' ').map(w=>w[0]).join('').slice(0,2)+'</div>'+
+    '<div style="min-width:0"><div class="rank">#'+(i+1)+' · '+a.genre+'</div><div class="nm">'+a.name+'</div><div class="cnt">'+a.total.toLocaleString('vi-VN')+' vote · bạn hôm nay '+a.mine+'/'+ARTIST_DAY_CAP+'</div><div class="bar"><i style="width:'+(a.total/max*100)+'%;background:'+a.c+'"></i></div></div>'+
+    '<div class="vbtns"><button class="btn ghost" data-v="'+a.id+'" data-n="1">+1</button><button class="btn" data-v="'+a.id+'" data-n="5">+5</button></div></div>').join('')+'</div>';
+  document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.v,n=+b.dataset.n,ad=S.artistDay[k],cur=ad[id]||0,a=ARTISTS.find(x=>x.id===id);
+    if(S.balance<n){toast('Bạn còn '+S.balance+' vote. Làm thêm thử thách để có vote.');return;}
+    if(cur+n>ARTIST_DAY_CAP){toast('Hôm nay bạn chỉ còn vote được '+(ARTIST_DAY_CAP-cur)+' cho '+a.name+'.');return;}
+    S.balance-=n;ad[id]=cur+n;S.artist[id]=(S.artist[id]||0)+n;log('info','Bình chọn '+n+' vote cho '+a.name);save();toast('Đã bình chọn '+n+' vote cho '+a.name);render();
+  });
+}
+
+// ---------- log ----------
+function renderLog(){
+  $('#pane').innerHTML='<div><h2 class="h">Nhật ký</h2><p class="sub">Mỗi lần nhận hoặc bị từ chối đều được lưu để đối soát. Màu xanh là hợp lệ, màu đỏ là bị chặn.</p></div><div class="log">'+
+   (S.log.length?S.log.map(l=>'<div class="row '+l.kind+'"><span class="tm">'+l.t+'</span><span>'+(l.kind==='ok'?'<span class="k">Hợp lệ · </span>':l.kind==='block'?'<span class="k">Bị chặn · </span>':'')+esc(l.text)+'</span></div>').join(''):'<div class="empty">Chưa có hoạt động. Hãy quẹt một thử thách hoặc thử nút gian lận ở bảng điều khiển.</div>')+'</div>';
+}
+
+// ---------- rules ----------
+function renderRules(){
+  $('#pane').innerHTML=
+  '<div><h2 class="h">Luật chơi</h2><p class="sub">Mỗi ngày bạn có 7 thẻ thử thách riêng. Hoàn thành thử thách để nhận vote, rồi dùng vote bình chọn cho nghệ sĩ.</p></div>'+
+  '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Loại</th><th>Ví dụ</th><th>Vote gốc</th></tr></thead><tbody>'+
+  '<tr><td>Phi tài chính</td><td>Xem menu, xem video, đăng nhập, chia sẻ, mời bạn</td><td>1 · tối đa '+NF_DAY_CAP+'/ngày</td></tr>'+
+  '<tr><td>Tài chính hằng ngày</td><td>Chuyển tiền từ 50k, nạp ĐT 100k, hóa đơn, tiết kiệm từ 6 tháng</td><td>2–3</td></tr>'+
+  '<tr><td>Tài chính theo phân khúc</td><td>Vé phim, data, vé concert, QR… tùy nhóm khách</td><td>3</td></tr></tbody></table></div>'+
+  '<div class="rule"><h4>Giới hạn mỗi ngày</h4><ul><li>Nhận tối đa '+BASE_SLOTS+' thử thách (cuối tuần '+WEEKEND_SLOTS+').</li><li>Kiếm tối đa '+DAY_VOTE_CAP+' vote/ngày, kể cả khi có ưu đãi.</li><li>Mỗi nghệ sĩ nhận tối đa '+ARTIST_DAY_CAP+' vote/ngày từ một tài khoản.</li><li>Bộ thẻ và hạn mức reset lúc 00:00 giờ máy chủ.</li></ul></div>'+
+  '<div class="rule"><h4>Thời điểm vàng</h4><ul><li><b>Giờ vàng</b> 12:00–13:00 và 20:00–21:00: thử thách tài chính ×2.</li><li><b>Ngày vàng</b> ngày 15 hằng tháng và ngày trùng tháng (10/10, 11/11): mọi vote ×2.</li><li><b>Cuối tuần</b>: thêm 2 lượt nhận thử thách.</li><li><b>Thẻ vàng</b>: thẻ hiếm trong bộ bài, ×2. Ngày vàng luôn có 1 thẻ vàng.</li><li><b>Combo</b>: hoàn thành đủ 3 loại trong ngày được +'+COMBO_BONUS+' vote.</li><li>Các hệ số cộng dồn nhưng tối đa ×'+MULT_CAP+'.</li></ul></div>'+
+  '<div class="rule"><h4>Chống gian lận</h4><ul>'+
+  '<li>Bộ thẻ sinh từ mã khách hàng + ngày trên máy chủ. Tải lại app hay cài lại vẫn ra đúng bộ cũ; thẻ đã bỏ qua không quay lại.</li>'+
+  '<li>Mọi giờ (giờ vàng, reset ngày) lấy theo giờ máy chủ, không theo điện thoại.</li>'+
+  '<li>Vote tài chính chỉ cộng khi core banking trả về mã giao dịch thành công, sau thời điểm nhận thử thách, đạt giá trị tối thiểu.</li>'+
+  '<li>Mỗi mã giao dịch chỉ dùng được một lần (khóa idempotency), chặn bấm nhận nhiều lần.</li>'+
+  '<li>Loại trừ chuyển cho chính mình, tài khoản liên kết, và chuyển vòng (A→B→A trong 24 giờ).</li>'+
+  '<li>Giao dịch hoàn/hủy hoặc tất toán tiết kiệm trước 30 ngày: thu hồi vote, trừ vào số dư hoặc khóa vote ngày sau.</li>'+
+  '<li>Mời bạn chỉ tính khi bạn mới eKYC xong và có giao dịch đầu tiên; giới hạn theo thiết bị và CCCD.</li>'+
+  '<li>Một thiết bị gắn một tài khoản; chặn giả lập, root/jailbreak; chấm điểm rủi ro theo hành vi để soát xét thủ công.</li></ul></div>';
+}
+
+// ---------- presets & cheats ----------
+function renderPresets(){
+  $('#presets').innerHTML=PRESETS.map(p=>'<button class="preset" data-p="'+p.id+'" aria-pressed="'+(S.preset===p.id)+'"><b>'+p.label+'</b><span>'+p.note+'</span></button>').join('');
+  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{S.preset=b.dataset.p;save();toast('Giờ máy chủ: '+PRESETS.find(p=>p.id===S.preset).label);render();});
+}
+function cheat(text,toastMsg){log('block',text);toast(toastMsg);render();}
+$('#c1').onclick=()=>{
+  if(!S.lastTxn){toast('Hoàn thành một thử thách tài chính trước, rồi thử dùng lại mã giao dịch đó.');return;}
+  cheat('Dùng lại mã '+S.lastTxn+' cho thử thách khác: mã đã được dùng để nhận thưởng','Bị chặn: mã '+S.lastTxn+' đã nhận thưởng rồi');
+};
+$('#c2').onclick=()=>cheat('Hai yêu cầu nhận cùng lúc: yêu cầu thứ 2 bị khóa idempotency, chỉ 1 lần được ghi','Chỉ 1 yêu cầu được xử lý, yêu cầu còn lại bị loại');
+$('#c3').onclick=()=>cheat('Giờ thiết bị lệch khỏi giờ máy chủ: hệ số giờ vàng tính theo máy chủ, giờ điện thoại bị bỏ qua','Bị chặn: hệ thống chỉ dùng giờ máy chủ');
+$('#c4').onclick=()=>{log('block','Tải lại app để đổi thẻ: bộ thẻ sinh từ mã KH + ngày trên máy chủ nên không đổi');toast('Bộ thẻ vẫn y nguyên, thẻ đã bỏ qua không quay lại');render();};
+$('#c5').onclick=()=>cheat('Chuyển vòng A→B→A trong 24 giờ: đánh dấu giao dịch vòng, không tính thử thách','Bị chặn: phát hiện chuyển tiền vòng');
+$('#c6').onclick=()=>{
+  const d=day(),a=d.accepted.find(x=>x.done&&x.txn&&!x.revoked);
+  if(!a){toast('Hoàn thành một thử thách tài chính trước để thử hoàn giao dịch.');return;}
+  a.revoked=true;S.balance=Math.max(0,S.balance-a.votes);
+  log('block','Giao dịch '+a.txn+' bị hoàn: thu hồi '+a.votes+' vote khỏi số dư');save();toast('Đã thu hồi '+a.votes+' vote do giao dịch bị hoàn');render();
+};
+$('#reset').onclick=()=>{S=fresh();save();toast('Đã xóa dữ liệu demo');render();};
+
+render();
+})();
+</script>
+</body>
+</html>
