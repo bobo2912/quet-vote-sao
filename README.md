@@ -30,4 +30,4 @@ Mở link GitHub Pages trên điện thoại:
 - **iPhone (Safari):** nút Chia sẻ → *Thêm vào MH chính*.
 - **Android (Chrome):** menu ⋮ → *Cài đặt ứng dụng* / *Thêm vào màn hình chính*.
 
-Khi mở từ màn hình chính, app chạy toàn màn hình (ẩn bảng demo) và vẫn mở được khi mất mạng. Cập nhật code thì đổi `VERSION` trong `sw.js`.
+Khi mở từ màn hình chính, app chạy toàn màn hình (bảng demo nằm cuối trang) và vẫn mở được khi mất mạng. Cập nhật code thì đổi `VERSION` trong `sw.js`.
