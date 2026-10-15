@@ -14,7 +14,7 @@ Chạy: mở `index.html` (không cần build). Link GitHub Pages: https://bobo2
 - Mới vào cứ quẹt; hết lượt mới hiện màn mời Upgrade để quẹt không giới hạn.
 - Bộ thẻ quay vòng liên tục, không hiện số thẻ còn lại; thẻ đã nhận không quay lại trong ngày.
 - **Trần: 50 vote/ngày** cho mọi khách.
-- Tối đa 5 thử thách làm dở cùng lúc.
+- Tối đa 5 thử thách làm dở cùng lúc (tính riêng theo hạng; khi đầy vẫn quẹt bỏ qua được).
 - Sự kiện áp dụng **mọi khách**: giờ vàng (12h, 20h) tài chính ×2, ngày vàng (15 hằng tháng, 10/10, 11/11) ×2, thẻ vàng ×2, cộng dồn tối đa ×3; combo đủ 3 nhóm +3.
 - Phi tài chính tối đa 10 vote/ngày.
 - Tất toán sổ mở khóa trước hạn → mất quyền Upgrade ngay.

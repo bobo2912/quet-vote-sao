@@ -341,7 +341,8 @@ function dKey(t){return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0
 function boosters(t){const day=t.getDay(),h=t.getHours(),dt=t.getDate(),mo=t.getMonth()+1;return {weekend:day===0||day===6,goldenDay:dt===15||dt===mo,goldenHour:h===12||h===20};}
 function freeSlots(t){return CFG.FREE_SLOTS+(boosters(t).weekend?CFG.WEEKEND_FREE_BONUS:0);}
 function day(){const k=dKey(now());if(!S.days[k])S.days[k]={idx:{},accepted:[],freeTaken:0,earned:0,nfEarned:0,combo:false};return S.days[k];}
-const active=d=>d.accepted.filter(a=>!a.done).length;
+// Đếm thẻ làm dở theo hạng hiện tại: thẻ nhận lúc còn All user không chặn quyền Upgrade vừa mở khóa
+const active=d=>d.accepted.filter(a=>!a.done&&a.tier===S.tier).length;
 
 // Sự kiện áp dụng cho mọi khách hàng
 function votesFor(c,t,golden){
@@ -417,9 +418,9 @@ function blockState(){
   const t=now(),d=day();
   if(d.earned>=CFG.DAY_VOTE_CAP)return {kind:'cap'};
   if(!isUp()&&d.freeTaken>=freeSlots(t))return {kind:'slots'};
-  if(active(d)>=CFG.MAX_ACTIVE)return {kind:'active'};
   return null;
 }
+const activeFull=()=>active(day())>=CFG.MAX_ACTIVE;
 function cardHTML(c,t){
   const vf=votesFor(c,t,c.golden);
   return '<div class="card t-'+c.grp+(c.golden?' golden':'')+'"><div class="band"><span class="type">'+GRP[c.grp]+'</span>'+(c.golden?'<span class="tag">Thẻ vàng</span>':c.tier==='up'?'<span class="tag">Upgrade</span>':'')+'</div>'+
@@ -434,12 +435,12 @@ function renderPlay(){
   let deckHTML;
   if(block&&block.kind==='slots')deckHTML='<div class="endcard"><b>Bạn đã dùng hết '+freeSlots(t)+' lượt hôm nay</b><p class="sub">Nâng cấp để quẹt không giới hạn ngay hôm nay:</p><ul><li>Không giới hạn lượt nhận thử thách</li><li>Thử thách Upgrade 2–5 vote mỗi thẻ</li></ul><p class="sub">Gửi tiết kiệm từ '+money(CFG.UNLOCK_MIN)+', kỳ hạn từ '+CFG.UNLOCK_TERM+' tháng.</p><button class="btn" id="unlock">Mở khóa không giới hạn</button></div>';
   else if(block&&block.kind==='cap')deckHTML='<div class="deck-empty"><div><b>Đã săn đủ '+CFG.DAY_VOTE_CAP+' vote hôm nay</b>Hạn mức mở lại lúc 00:00. Dùng vote để bình chọn nhé.</div></div>';
-  else if(block&&block.kind==='active')deckHTML='<div class="deck-empty"><div><b>Đang có '+CFG.MAX_ACTIVE+' thử thách làm dở</b>Hoàn thành bớt một thử thách bên dưới để quẹt tiếp.</div></div>';
   else if(!next.length)deckHTML='<div class="deck-empty"><div><b>Bạn đã nhận hết thử thách</b>Quay lại ngày mai nhé.</div></div>';
   else deckHTML=next.slice().reverse().map(x=>cardHTML(x.c,t)).join('');
   const dis=(block||!next.length)?'disabled':'';
   $('#pane').innerHTML=
    '<div><h2 class="h">Thử thách hôm nay</h2><p class="sub">Quẹt phải để nhận, quẹt trái để bỏ qua. Mỗi ngày săn tối đa '+CFG.DAY_VOTE_CAP+' vote.</p></div>'+
+   (!block&&activeFull()?'<div class="chip on" style="align-self:flex-start">Đang làm dở '+CFG.MAX_ACTIVE+'/'+CFG.MAX_ACTIVE+' thử thách · làm xong bớt để nhận thêm</div>':'')+
    '<div class="deck" id="deck">'+deckHTML+'</div>'+
    '<div class="swipe-btns"><button class="circle no" id="bNo" aria-label="Bỏ qua" '+dis+'>✕</button><button class="circle yes" id="bYes" aria-label="Nhận thử thách" '+dis+'>✓</button></div>'+
    '<div><h2 class="h">Đã nhận hôm nay</h2><div class="combo">Combo đủ 3 nhóm +'+CFG.COMBO_BONUS+': '+['nf','fd','fs'].map(k=>'<span class="c'+(typesDone.has(k)?' hit-'+k:'')+'">'+GRP[k].replace('Tài chính · ','')+'</span>').join('')+(d.combo?' <b style="color:var(--ok)">Đã nhận combo</b>':'')+'</div></div>'+
@@ -474,6 +475,7 @@ function fly(el,dir){
 function decide(dir){
   const t=now(),d=day(),n=upcoming(1)[0];if(!n)return;
   if(dir>0&&blockState()){render();return;}
+  if(dir>0&&activeFull()){toast('Bạn đang làm dở '+CFG.MAX_ACTIVE+' thử thách. Hoàn thành bớt rồi nhận thêm nhé.');render();return;}
   d.idx[S.tier]=n.p+1;const c=n.c;
   if(dir>0){
     d.accepted.push({cardId:c.id,grp:c.grp,golden:!!c.golden,at:hhmm(t),done:false,tier:S.tier});
