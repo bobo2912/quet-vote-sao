@@ -24,3 +24,10 @@ Chạy: mở `index.html` trong trình duyệt (một file, không cần build).
 - Hoàn/hủy giao dịch, tất toán tiết kiệm sớm → thu hồi vote; mời bạn chỉ tính khi bạn eKYC + giao dịch đầu.
 
 > Bản prototype: giao dịch, kiểm tra phía máy chủ và tên nghệ sĩ là giả lập; dữ liệu demo lưu localStorage.
+
+## Cài như app (PWA)
+Mở link GitHub Pages trên điện thoại:
+- **iPhone (Safari):** nút Chia sẻ → *Thêm vào MH chính*.
+- **Android (Chrome):** menu ⋮ → *Cài đặt ứng dụng* / *Thêm vào màn hình chính*.
+
+Khi mở từ màn hình chính, app chạy toàn màn hình (ẩn bảng demo) và vẫn mở được khi mất mạng. Cập nhật code thì đổi `VERSION` trong `sw.js`.
